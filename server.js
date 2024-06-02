@@ -1,10 +1,12 @@
 const express = require('express')
 const app = express()
+require('dotenv').config(); 
 const db=require('./db')
 const Person=require('./models/person')
 const bodyParser=require('body-parser')
 // const person = require('./models/person')
 const menuItem=require('./models/menuItem');
+const PORT=process.env.PORT||3000;
 
 app.use(bodyParser.json());
 app.get('/', function (req, res) {
@@ -101,7 +103,7 @@ app.use('/person',personRoutes);
 const menuRoutes=require('./routes/menuRoutes');
 app.use('/menu',menuRoutes); 
 
-app.listen(8080,()=>{
+app.listen(PORT,()=>{
     console.log("server is listening on port 8080")
 })
 // var notes=require('./notes.js')
