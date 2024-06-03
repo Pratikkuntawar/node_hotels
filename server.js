@@ -104,7 +104,7 @@ const menuRoutes=require('./routes/menuRoutes');
 app.use('/menu',menuRoutes); 
 
 app.listen(PORT,()=>{
-    console.log("server is listening on port 8080")
+    console.log("server is listening on port 3000")
 })
 // var notes=require('./notes.js')
 // var _ = require('lodash');
