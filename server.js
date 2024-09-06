@@ -7,12 +7,48 @@ const bodyParser=require('body-parser')
 // const person = require('./models/person')
 const menuItem=require('./models/menuItem');
 const PORT=process.env.PORT||3000;
+ const passport=require('./auth');
+ const cors = require('cors');
+app.use(cors());
+
+// const LocalStrategy=require('passport-local').Strategy;
+
 
 app.use(bodyParser.json());
-app.get('/', function (req, res) {
+
+const logRequest=(req,res,next)=>{
+    console.log(`at ${new Date().toLocaleString()} Request made to :${req.originalUrl} `);
+    next()
+}
+
+app.use(logRequest)
+app.use(passport.initialize())
+// passport.use(new LocalStrategy(async (USERNAME,password,done)=>{
+//     try{
+//     console.log(`credentials received:`,USERNAME,password)
+//     const user=await Person.findOne({username:USERNAME});
+//     if(!user){
+//         return done(null,false,{message:"Incorrect username"});
+//     }
+//     const isPasswordMatch=user.password==password?true:false;
+//     if(isPasswordMatch){
+//        return done(null,user);
+//     }
+//     else{
+//         return done(null,false,{message:"incorrect password"});
+//     }
+//     }
+//     catch(err){
+//     return done(err);
+//     }
+// }))
+
+const localAuthMiddleware=passport.authenticate('local',{session:false});
+
+app.get('/',function (req, res) {
   res.send("server is running at port address 8080")
 })
-app.get('/about',(req,res)=>{
+app.get('/about',logRequest,(req,res)=>{
     res.send("you are currently on about page")
 })
 app.get('/contact',(req,res)=>{

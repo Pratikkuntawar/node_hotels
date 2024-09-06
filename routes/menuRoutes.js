@@ -27,6 +27,22 @@ router.post('/',async(req,res)=>{
      }
  })
 
-
+ router.get('/:taste',async(req,res)=>{
+    try{
+    const taste=req.params.taste;
+    if(taste==="sweet"|| taste==="spicy"|| taste==="sour"){
+        const response =await menuItem.find({taste:taste});
+        console.log("data fetched successfully");
+        res.status(200).json(response);
+    }
+    else{
+        res.status(404).json({error:"invalid taste"})
+    }
+    }
+    catch(err){
+        console.log("data is unavailable");
+        res.status(500).json({err:"invalid server error"})
+    }
+})
 
  module.exports=router;
